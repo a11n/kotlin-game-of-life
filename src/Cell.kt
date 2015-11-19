@@ -5,9 +5,9 @@ class Cell(var isAlive: Boolean) {
         val livingNeighborsCount = neighbors.filter { it.isAlive }.count()
         isAlive = when(livingNeighborsCount) { 
             0, 1 -> false
-            2, 3 -> true
+            2 -> isAlive
+            3 -> true
             else -> false
         }
-        
     }
 }

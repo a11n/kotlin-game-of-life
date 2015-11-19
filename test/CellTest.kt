@@ -32,4 +32,15 @@ class CellTest {
 
         assertFalse(cell.isAlive)
     }
+
+    @Test fun cellShouldRebornWhenThreeLivingNeighbors() {
+        val cell = Cell(false)
+        cell.neighbors.add(Cell(true))
+        cell.neighbors.add(Cell(true))
+        cell.neighbors.add(Cell(true))
+
+        cell.evolve()
+
+        assertTrue(cell.isAlive)
+    }
 }
