@@ -1,4 +1,4 @@
-class Cell(var isAlive: Boolean) {
+class Cell(var isAlive : Boolean = false) {
     val neighbors: MutableList<Cell> = arrayListOf()
 
     fun evolve() {
