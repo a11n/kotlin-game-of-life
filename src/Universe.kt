@@ -6,25 +6,20 @@ class Universe(val size: Int) {
     }
 
     private fun getNeighbors(index: Int): List<Cell> {
-        val x = index.toX()
-        val y = index.toY()
-
         val neighbors: MutableList<Cell> = arrayListOf()
-        for (x1 in (x - 1..x + 1))
-            for (y1 in (y - 1..y + 1))
-                if (isInBounds(x1, y1).and(isNotSelf(x, x1, y, y1)))
-                    neighbors.add(cells[indexOf(x1, y1)])
+        neighborCoordinatesOf(index.toX(), index.toY())
+                .filter { it.isInBounds() }
+                .forEach { neighbors.add(cells[it.toIndex()]) }
 
         return neighbors
     }
 
-    private fun isNotSelf(x: Int, x1: Int, y: Int, y1: Int) = (x1 != x).or(y1 != y)
+    private fun neighborCoordinatesOf(x: Int, y: Int)
+            = arrayOf(Pair(x - 1, y - 1), Pair(x, y - 1), Pair(x + 1, y - 1), Pair(x - 1, y),
+            Pair(x + 1, y), Pair(x - 1, y + 1), Pair(x, y + 1), Pair(x + 1, y + 1))
 
-    private fun isInBounds(x: Int, y: Int) = !((x < 0).or(x >= size).or(y < 0).or(y >= size))
-
-    private fun indexOf(x: Int, y: Int) = y * size + x
-
+    private fun Pair<Int, Int>.isInBounds() = !((first < 0).or(first >= size).or(second < 0).or(second >= size))
+    private fun Pair<Int, Int>.toIndex() = second * size + first
     private fun Int.toX() = this % size
     private fun Int.toY() = this / size
-
 }
