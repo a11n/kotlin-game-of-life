@@ -10,21 +10,15 @@ class Universe(val size: Int) {
         val y = index.toY()
 
         val neighbors: MutableList<Cell> = arrayListOf()
-        neighbors.tryToAddNeighborAt(x - 1, y - 1)
-        neighbors.tryToAddNeighborAt(x, y - 1)
-        neighbors.tryToAddNeighborAt(x + 1, y - 1)
-        neighbors.tryToAddNeighborAt(x - 1, y)
-        neighbors.tryToAddNeighborAt(x + 1, y)
-        neighbors.tryToAddNeighborAt(x - 1, y + 1)
-        neighbors.tryToAddNeighborAt(x, y + 1)
-        neighbors.tryToAddNeighborAt(x + 1, y + 1)
+        for (x1 in (x - 1..x + 1))
+            for (y1 in (y - 1..y + 1))
+                if (isInBounds(x1, y1).and(isNotSelf(x, x1, y, y1)))
+                    neighbors.add(cells[indexOf(x1, y1)])
 
         return neighbors
     }
 
-    private fun MutableList<Cell>.tryToAddNeighborAt(x: Int, y: Int) {
-        if (isInBounds(x, y)) this.add(cells[indexOf(x, y)])
-    }
+    private fun isNotSelf(x: Int, x1: Int, y: Int, y1: Int) = (x1 != x).or(y1 != y)
 
     private fun isInBounds(x: Int, y: Int) = !((x < 0).or(x >= size).or(y < 0).or(y >= size))
 

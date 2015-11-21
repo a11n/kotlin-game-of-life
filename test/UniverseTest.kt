@@ -21,10 +21,11 @@ class UniverseTest {
         assertTrue(cells[7].hasNeighbors(cells[3], cells[4], cells[5], cells[6], cells[8]))
         assertTrue(cells[8].hasNeighbors(cells[4], cells[5], cells[7]))
     }
-}
+    
+    private fun Cell.hasNeighbors(vararg cells: Cell): Boolean {
+        cells.forEach { if (!this.neighbors.contains(it)) return false }
+        return cells.size == this.neighbors.size
+    }
 
-fun Cell.hasNeighbors(vararg cells: Cell): Boolean {
-    cells.forEach { if (!this.neighbors.contains(it)) return false }
-    return cells.size == this.neighbors.size
 }
 
