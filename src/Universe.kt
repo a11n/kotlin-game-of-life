@@ -1,3 +1,5 @@
+import java.util.*
+
 class Universe(val size: Int) {
     val cells = Array(size * size, { Cell() })
 
@@ -6,12 +8,11 @@ class Universe(val size: Int) {
     }
 
     private fun getNeighbors(index: Int): List<Cell> {
-        val neighbors: MutableList<Cell> = arrayListOf()
-        neighborCoordinatesOf(index.toX(), index.toY())
-                .filter { it.isInBounds() }
-                .forEach { neighbors.add(cells[it.toIndex()]) }
-
-        return neighbors
+        return ArrayList<Cell>().apply {
+            neighborCoordinatesOf(index.toX(), index.toY())
+                    .filter { it.isInBounds() }
+                    .forEach { add(cells[it.toIndex()]) }
+        }
     }
 
     private fun neighborCoordinatesOf(x: Int, y: Int)
