@@ -1,10 +1,8 @@
-import java.util.*
-
 class Universe(val size: Int) {
     val cells = Array(size * size, { Cell() })
 
     init {
-        cells.forEachIndexed { i, cell -> cell.neighbors.addAll(getNeighbors(i)) }
+        cells.forEachIndexed { i, cell -> cell.setupNeighbors(i) }
     }
 
     fun evolve() {
@@ -12,8 +10,8 @@ class Universe(val size: Int) {
         cells.forEachIndexed { i, cell -> cell.evolve(livingNeighborCounts[i]) }
     }
 
-    private fun getNeighbors(index: Int): List<Cell> {
-        return ArrayList<Cell>().apply {
+    private fun Cell.setupNeighbors(index: Int) {
+        neighbors.apply {
             neighborCoordinatesOf(index.toX(), index.toY())
                     .filter { it.isInBounds() }
                     .forEach { add(cells[it.toIndex()]) }
