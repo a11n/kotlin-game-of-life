@@ -8,7 +8,7 @@ class Universe(val size: Int) {
     }
 
     fun evolve() {
-        val livingNeighborCounts = cells.map { it.neighbors.filter { it.isAlive }.count() }
+        val livingNeighborCounts = cells.map { it.neighbors.count { it.isAlive } }
         cells.forEachIndexed { i, cell -> cell.evolve(livingNeighborCounts[i]) }
     }
 
