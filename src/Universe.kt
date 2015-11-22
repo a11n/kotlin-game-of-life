@@ -7,6 +7,11 @@ class Universe(val size: Int) {
         cells.forEachIndexed { i, cell -> cell.neighbors.addAll(getNeighbors(i)) }
     }
 
+    fun evolve() {
+        val livingNeighborCounts = cells.map { it.neighbors.filter { it.isAlive }.count() }
+        cells.forEachIndexed { i, cell -> cell.evolve(livingNeighborCounts[i]) }
+    }
+
     private fun getNeighbors(index: Int): List<Cell> {
         return ArrayList<Cell>().apply {
             neighborCoordinatesOf(index.toX(), index.toY())
@@ -20,7 +25,7 @@ class Universe(val size: Int) {
             Pair(x + 1, y), Pair(x - 1, y + 1), Pair(x, y + 1), Pair(x + 1, y + 1))
 
     private fun Pair<Int, Int>.isInBounds() = !((first < 0).or(first >= size).or(second < 0).or(second >= size))
-    private fun Pair<Int, Int>.toIndex() = second * size + first
+    fun Pair<Int, Int>.toIndex() = second * size + first
     private fun Int.toX() = this % size
     private fun Int.toY() = this / size
 }
