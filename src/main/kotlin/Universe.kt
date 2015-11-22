@@ -13,8 +13,8 @@ class Universe(val size: Int) {
     private fun Cell.setupNeighbors(index: Int) {
         neighbors.apply {
             neighborCoordinatesOf(index.toX(), index.toY())
-                    .filter { it.isInBounds() }
-                    .forEach { add(cells[it.toIndex()]) }
+                    .filter { it.isInBounds() }.map { it.toIndex() }
+                    .forEach { add(cells[it]) }
         }
     }
 
