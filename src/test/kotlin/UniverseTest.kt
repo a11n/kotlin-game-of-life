@@ -47,6 +47,38 @@ class UniverseTest {
         assertTrue(universe.cellAt(2,2).isAlive)
     }
 
+    @Test fun universeShouldEvolveWithOverpopulation() {
+        val universe = Universe(size = 3)
+        universe.cellAt(0,0).live()
+        universe.cellAt(2,0).live()
+        universe.cellAt(1,1).live()
+        universe.cellAt(0,2).live()
+        universe.cellAt(2,2).live()
+
+        universe.evolve()
+
+        assertFalse(universe.cellAt(0,0).isAlive)
+        assertFalse(universe.cellAt(2,0).isAlive)
+        assertFalse(universe.cellAt(1,1).isAlive)
+        assertFalse(universe.cellAt(0,2).isAlive)
+        assertFalse(universe.cellAt(2,2).isAlive)
+    }
+
+    @Test fun universeShouldEvolveWithRebirth() {
+        val universe = Universe(size = 3)
+        universe.cellAt(0,0).live()
+        universe.cellAt(2,0).live()
+        universe.cellAt(0,2).live()
+
+        universe.evolve()
+
+        assertFalse(universe.cellAt(0,0).isAlive)
+        assertFalse(universe.cellAt(2,0).isAlive)
+        assertFalse(universe.cellAt(0,2).isAlive)
+        
+        assertTrue(universe.cellAt(1,1).isAlive)
+    }
+
     private fun Cell.hasNeighbors(vararg cells: Cell): Boolean {
         cells.forEach { if (!this.neighbors.contains(it)) return false }
         return cells.size == this.neighbors.size
